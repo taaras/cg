@@ -6,6 +6,7 @@ package canvases
 
 import figures.*
 import figures.Point
+import javafx.geometry.Bounds
 
 import javax.swing.*
 import java.awt.*
@@ -17,14 +18,6 @@ import java.util.*
 class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainComponent: Container) : JPanel() {
     var toolbaR_HEIGHT: Int = 0
 
-    var bottomLength = 200
-    var topLength = 300
-    var centerRadius = 200
-    var secondArcLengthDif = 40
-    var innerCircleWidth = 70
-    var innerCircleHeight = 70
-    var innerCircleRadius = 40
-    var outerCircleRadius = 70
     var highlighted = false
 
     var shiftX: Int = 0
@@ -39,28 +32,29 @@ class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainCompon
     var rotateDegree = 0
     var rotatePoint: Point? = null
 
-    val R1 = 80
-    val R2 = 40
-    val R3 = 40
-    val A = 80
-    val B = 20
-    val C = 40
-    val D = 60
-    val E = 40
-    val F = 60
-    val G = 120
-    val H = 40
-    val I = 30
-    val ALPHA = atan(3.0)
+    var R1 = 80
+    var R2 = 40
+    var R3 = 40
+    var A = 80
+    var B = 20
+    var C = 40
+    var D = 60
+    var E = 40
+    var F = 60
+    var G = 120
+    var H = 40
+    var I = 30
+    var ALPHA = toDegrees(atan(3.0)).toInt()
 
     init {
         this.preferredSize = Dimension(windoW_WIDTH, windoW_HEIGHT)
         canvasPoints = java.util.ArrayList<Point>()
 
         addMouseListener(object : MouseListener {
+
             override fun mouseClicked(e: MouseEvent) {
                 val optionPane = JOptionPane(" x : " + e.x + " y : " + e.y,
-                        JOptionPane.WARNING_MESSAGE)
+                        JOptionPane.INFORMATION_MESSAGE)
 
                 val dialog = optionPane.createDialog("Info")
                 dialog.isAlwaysOnTop = true
@@ -116,7 +110,6 @@ class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainCompon
     }
 
     private fun definePlotElements() {
-        print(toDegrees(atan(3.0)))
 
         figures = FigureDecorator(this)
         val axis = Line(Point(mainComponent.width / 2, mainComponent.height / 2 - 300), Point(mainComponent.width / 2, mainComponent.height / 2 + 300))
@@ -176,10 +169,10 @@ class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainCompon
         val line7 = Line(line6.endPoint, Point(line6.endPoint.x, line6.endPoint.y + F))
         drawing.add(line7)
 
-        val y = R3 * cos(ALPHA) + I
+        val y = R3 * cos(toRadians(ALPHA.toDouble())) + I
         //println("R3 = $R3\ncos(ALPHA) = ${cos(ALPHA)}\nI = $I\ny = $y")
-        val x = y / tan(ALPHA)
-        val z = R3 * sin(ALPHA)
+        val x = y / tan(toRadians(ALPHA.toDouble()))
+        val z = R3 * sin(toRadians(ALPHA.toDouble()))
 
         //LINE_8
         val line8 = Line(line7.endPoint, Point((centerPoint.x - z - x).toInt(), line7.endPoint.y))
@@ -190,7 +183,7 @@ class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainCompon
         drawing.add(line9)
 
         //TOP_ARC
-        val topArc = Arc(R3, Point(centerPoint.x, centerPoint.y - G - I), 180, 180 + toDegrees(ALPHA).toInt())
+        val topArc = Arc(R3, Point(centerPoint.x, centerPoint.y - G - I), 180, 180 + ALPHA)
         drawing.add(topArc)
 
         return drawing

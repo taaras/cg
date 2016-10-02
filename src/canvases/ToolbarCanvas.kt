@@ -4,29 +4,24 @@ package canvases
  * Created by Тарас on 28.09.2016.
  */
 
-import figures.Point
-import figures.RotateType
-
 import javax.swing.*
 import java.awt.*
-import java.awt.event.ActionEvent
-import java.awt.event.ActionListener
 
 class ToolbarCanvas(width: Int, height: Int, private val mainComponent: Container, private val figureCanvas: FigureCanvas) : JPanel() {
-    private var topHeight: TextField? = null
-    private var botHeight: TextField? = null
-    private var innerRadius: TextField? = null
-    private var outerRadius: TextField? = null
-    private var mainRadius: TextField? = null
-    private var rebuildBtn: Button? = null
-    private var centralArcDiff: TextField? = null
-    private var moveNumber: TextField? = null
-    private var rotateX: Button? = null
-    private var degree: TextField? = null
-    private var pointX: TextField? = null
-    private var pointY: TextField? = null
-    private var rotatePoint: Button? = null
 
+    private var r1 = JSpinner(SpinnerNumberModel(80, 70, 90, 1))
+    private var r2 = JSpinner(SpinnerNumberModel(40, 30, 50, 1))
+    private var r3 = JSpinner(SpinnerNumberModel(40, 30, 50, 1))
+    private var a = JSpinner(SpinnerNumberModel(80, 70, 90, 1))
+    private var b = JSpinner(SpinnerNumberModel(20, 10, 30, 1))
+    private var c = JSpinner(SpinnerNumberModel(40, 30, 50, 1))
+    private var d = JSpinner(SpinnerNumberModel(60, 50, 70, 1))
+    private var e = JSpinner(SpinnerNumberModel(40, 30, 50, 1))
+    private var f = JSpinner(SpinnerNumberModel(60, 50, 70, 1))
+    private var g = JSpinner(SpinnerNumberModel(120, 110, 130, 1))
+    private var h = JSpinner(SpinnerNumberModel(40, 30, 50, 1))
+    private var i = JSpinner(SpinnerNumberModel(30, 20, 40, 1))
+    private var alpha = JSpinner(SpinnerNumberModel(71.0, 61.0, 81.0, 1.0))
 
     init {
         this.preferredSize = Dimension(width, height)
@@ -34,7 +29,142 @@ class ToolbarCanvas(width: Int, height: Int, private val mainComponent: Containe
     }
 
     private fun initFields() {
-        //Top length
+
+        //R1
+        val l1 = JLabel("R1")
+        l1.labelFor = r1
+        r1.addChangeListener {
+            figureCanvas.R1 = r1.value as Int
+            mainComponent.repaint()
+        }
+        add(l1)
+        add(r1)
+
+        //R2
+        val l2 = JLabel("R2")
+        l2.labelFor = r2
+        r2.addChangeListener {
+            figureCanvas.R2 = r2.value as Int
+            mainComponent.repaint()
+        }
+        add(l2)
+        add(r2)
+
+        //R3
+        val l3 = JLabel("R3")
+        l3.labelFor = r3
+        r3.addChangeListener {
+            figureCanvas.R3 = r3.value as Int
+            mainComponent.repaint()
+        }
+        add(l3)
+        add(r3)
+
+        //
+        val l4 = JLabel("A")
+        l4.labelFor = a
+        a.addChangeListener {
+            figureCanvas.A = a.value as Int
+            mainComponent.repaint()
+        }
+        add(l4)
+        add(a)
+
+        //
+        val l5 = JLabel("B")
+        l5.labelFor = b
+        b.addChangeListener {
+            figureCanvas.B = b.value as Int
+            mainComponent.repaint()
+        }
+        add(l5)
+        add(b)
+
+        //
+        val l6 = JLabel("C")
+        l6.labelFor = c
+        c.addChangeListener {
+            figureCanvas.C = c.value as Int
+            mainComponent.repaint()
+        }
+        add(l6)
+        add(c)
+
+        //
+        val l7 = JLabel("D")
+        l7.labelFor = d
+        d.addChangeListener {
+            figureCanvas.D = d.value as Int
+            mainComponent.repaint()
+        }
+        add(l7)
+        add(d)
+
+        //
+        val l8 = JLabel("E")
+        l8.labelFor = e
+        e.addChangeListener {
+            figureCanvas.E = e.value as Int
+            mainComponent.repaint()
+        }
+        add(l8)
+        add(e)
+
+        //
+        val l9 = JLabel("F")
+        l9.labelFor = f
+        f.addChangeListener {
+            figureCanvas.F = f.value as Int
+            mainComponent.repaint()
+        }
+        add(l9)
+        add(f)
+
+        //
+        val l10 = JLabel("G")
+        l10.labelFor = g
+        g.addChangeListener {
+            figureCanvas.G = g.value as Int
+            mainComponent.repaint()
+        }
+        add(l10)
+        add(g)
+
+        //
+        val l11 = JLabel("H")
+        l11.labelFor = h
+        h.addChangeListener {
+            figureCanvas.H = h.value as Int
+            mainComponent.repaint()
+        }
+        add(l11)
+        add(h)
+
+        //
+        val l12 = JLabel("I")
+        l12.labelFor = i
+        i.addChangeListener {
+            figureCanvas.I = i.value as Int
+            mainComponent.repaint()
+        }
+        add(l12)
+        add(i)
+
+        //
+        val l13 = JLabel("  α")
+        l13.labelFor = alpha
+        alpha.addChangeListener {
+            figureCanvas.ALPHA = (alpha.value as Double).toInt()
+            mainComponent.repaint()
+        }
+        add(l13)
+        add(alpha)
+
+
+
+
+
+        /*//Top length
         topHeight = TextField(5)
         val topHeightText = Label("H1")
         this.add(topHeightText)
@@ -105,39 +235,8 @@ class ToolbarCanvas(width: Int, height: Int, private val mainComponent: Containe
             figureCanvas.highlighted = isHighlightedCheckbox.state
             mainComponent.repaint()
         }
-        add(rebuildBtn)
-
-        val moveLeft = Button("<")
-        val moveRight = Button(">")
-        val moveTop = Button("^")
-        val moveBottom = Button("V")
-
-        moveRight.addActionListener {
-            figureCanvas.shiftX += moveNumber!!.text!!.toInt()
-            mainComponent.repaint()
-        }
-
-        moveLeft.addActionListener {
-            figureCanvas.shiftX = figureCanvas.shiftX - Integer.valueOf(moveNumber!!.text)!!
-            mainComponent.repaint()
-        }
-
-        moveTop.addActionListener {
-            figureCanvas.shiftY -= moveNumber!!.text!!.toInt()
-            mainComponent.repaint()
-        }
-
-        moveBottom.addActionListener {
-            figureCanvas.shiftY += moveNumber!!.text!!.toInt()
-            mainComponent.repaint()
-        }
-
-        add(moveBottom)
-        add(moveTop)
-        add(moveLeft)
-        add(moveRight)
-
-        rotateX = Button("Rotate Axis")
+        add(rebuildBtn)*/
+        /*rotateX = Button("Rotate Axis")
         rotateX!!.addActionListener {
             figureCanvas.rotateType = RotateType.AXIS
             figureCanvas.rotateDegree = degree!!.text.toInt()
@@ -164,16 +263,15 @@ class ToolbarCanvas(width: Int, height: Int, private val mainComponent: Containe
         add(Label("x :"))
         add(pointX)
         add(Label("y :"))
-        add(pointY)
+        add(pointY)*/
     }
 
-
-    private fun setValues() {
+    /*private fun setValues() {
         topHeight!!.text += figureCanvas.topLength
         botHeight!!.text += figureCanvas.bottomLength
         innerRadius!!.text += figureCanvas.innerCircleRadius
         outerRadius!!.text += figureCanvas.outerCircleRadius
         mainRadius!!.text += figureCanvas.centerRadius
         centralArcDiff!!.text += figureCanvas.secondArcLengthDif
-    }
+    }*/
 }

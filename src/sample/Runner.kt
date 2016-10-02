@@ -19,7 +19,8 @@ class Runner : JFrame() {
         figureCanvas = FigureCanvas(CANVAS_WIDTH, CANVAS_HEIGHT + 1, cp)
         cp.add(figureCanvas, BorderLayout.NORTH)
         cp.add(ToolbarCanvas(CANVAS_WIDTH, TOOLBAR_HEIGHT, this, figureCanvas), BorderLayout.SOUTH)
-        defaultCloseOperation = JFrame.EXIT_ON_CLOSE
+        bounds = Rectangle(250, 50, CANVAS_WIDTH, CANVAS_HEIGHT)
+        defaultCloseOperation = EXIT_ON_CLOSE
         pack()
         title = "Building detail"
         isVisible = true
@@ -28,7 +29,7 @@ class Runner : JFrame() {
     companion object {
         val CANVAS_WIDTH = 760
         val CANVAS_HEIGHT = 460
-        val TOOLBAR_HEIGHT = 50
+        val TOOLBAR_HEIGHT = 150
 
         @JvmStatic fun main(args: Array<String>) {
             SwingUtilities.invokeLater { Runner() }
