@@ -128,13 +128,7 @@ class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainCompon
 
         figures = FigureDecorator(this)
 
-        var points =
-
-        //CENTER_POINT
-        val centerPoint = Point(mainComponent.width / 2, mainComponent.height / 2)
-        figures.add(centerPoint)
-
-        /*val axis = Line(Point(mainComponent.width / 2, mainComponent.height / 2 - 300), Point(mainComponent.width / 2, mainComponent.height / 2 + 300))
+        val axis = Line(Point(mainComponent.width / 2, mainComponent.height / 2 - 300), Point(mainComponent.width / 2, mainComponent.height / 2 + 300))
 
         val drawing = formLeftPartOfDrawing()
         var mirror = LinkedList<Figure>()
@@ -144,7 +138,7 @@ class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainCompon
         }
 
         figures.add(drawing)
-        figures.add(mirror)*/
+        figures.add(mirror)
     }
 
     private fun formLeftPartOfDrawing(): LinkedList<Figure>{
