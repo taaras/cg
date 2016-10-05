@@ -6,12 +6,10 @@ package canvases
 
 import figures.*
 import figures.Point
-import javafx.geometry.Bounds
 
 import javax.swing.*
 import java.awt.*
-import java.awt.event.MouseEvent
-import java.awt.event.MouseListener
+import java.awt.event.*
 import java.lang.Math.*
 import java.util.*
 
@@ -32,22 +30,23 @@ class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainCompon
     var rotateDegree = 0
     var rotatePoint: Point? = null
 
-    var R1 = 80
-    var R2 = 40
-    var R3 = 40
-    var A = 80
-    var B = 20
-    var C = 40
-    var D = 60
-    var E = 40
-    var F = 60
-    var G = 120
-    var H = 40
-    var I = 30
+    var k = 20
+    var R1 = k * 4
+    var R2 = k * 2
+    var R3 = k * 2
+    var A = k * 4
+    var B = k
+    var C = k * 2
+    var D = k * 3
+    var E = k * 2
+    var F = k * 3
+    var G = k * 6
+    var H = k * 2
+    var I = (k * 1.5).toInt()
     var ALPHA = toDegrees(atan(3.0)).toInt()
 
     init {
-        this.preferredSize = Dimension(windoW_WIDTH, windoW_HEIGHT)
+        preferredSize = Dimension(windoW_WIDTH, windoW_HEIGHT)
         canvasPoints = java.util.ArrayList<Point>()
 
         addMouseListener(object : MouseListener {
@@ -62,10 +61,10 @@ class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainCompon
             }
 
             override fun mousePressed(e: MouseEvent) {
+
             }
 
-            override fun mouseReleased(e: MouseEvent) {
-            }
+            override fun mouseReleased(e: MouseEvent) {}
 
             override fun mouseEntered(e: MouseEvent) {
             }
@@ -75,12 +74,27 @@ class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainCompon
         })
     }
 
+    fun updateDimension(){
+        R1 = k * 4
+        R2 = k * 2
+        R3 = k * 2
+        A = k * 4
+        B = k
+        C = k * 2
+        D = k * 3
+        E = k * 2
+        F = k * 3
+        G = k * 6
+        H = k * 2
+        I = (k * 1.5).toInt()
+    }
+
     public override fun paintComponent(g: Graphics) {
         super.paintComponent(g)
         background = Color.WHITE
 
         drawDashedLine(g)
-        drawAxis(g)
+        //drawAxis(g)
         drawGrid(g)
 
         definePlotElements()
@@ -105,6 +119,7 @@ class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainCompon
             }
         }
 
+        figures!!.shift(shiftX, shiftY)
         figures!!.draw(g)
 
     }
@@ -112,7 +127,14 @@ class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainCompon
     private fun definePlotElements() {
 
         figures = FigureDecorator(this)
-        val axis = Line(Point(mainComponent.width / 2, mainComponent.height / 2 - 300), Point(mainComponent.width / 2, mainComponent.height / 2 + 300))
+
+        var points =
+
+        //CENTER_POINT
+        val centerPoint = Point(mainComponent.width / 2, mainComponent.height / 2)
+        figures.add(centerPoint)
+
+        /*val axis = Line(Point(mainComponent.width / 2, mainComponent.height / 2 - 300), Point(mainComponent.width / 2, mainComponent.height / 2 + 300))
 
         val drawing = formLeftPartOfDrawing()
         var mirror = LinkedList<Figure>()
@@ -122,7 +144,7 @@ class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainCompon
         }
 
         figures.add(drawing)
-        figures.add(mirror)
+        figures.add(mirror)*/
     }
 
     private fun formLeftPartOfDrawing(): LinkedList<Figure>{
@@ -218,15 +240,15 @@ class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainCompon
 
         run {
             var i = 0
-            while (i < windoW_HEIGHT + 1) {
-                g2d.drawLine(0, i, windoW_WIDTH, i)
+            while (i < height + 1) {
+                g2d.drawLine(0, i, width, i)
                 i += gridStep
             }
         }
 
         var i = 0
-        while (i < windoW_WIDTH) {
-            g2d.drawLine(i, 0, i, windoW_HEIGHT)
+        while (i < width) {
+            g2d.drawLine(i, 0, i, height)
             i += gridStep
         }
     }

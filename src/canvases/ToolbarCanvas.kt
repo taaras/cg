@@ -9,19 +9,20 @@ import java.awt.*
 
 class ToolbarCanvas(width: Int, height: Int, private val mainComponent: Container, private val figureCanvas: FigureCanvas) : JPanel() {
 
-    private var r1 = JSpinner(SpinnerNumberModel(80, 70, 90, 1))
-    private var r2 = JSpinner(SpinnerNumberModel(40, 30, 50, 1))
-    private var r3 = JSpinner(SpinnerNumberModel(40, 30, 50, 1))
-    private var a = JSpinner(SpinnerNumberModel(80, 70, 90, 1))
-    private var b = JSpinner(SpinnerNumberModel(20, 10, 30, 1))
-    private var c = JSpinner(SpinnerNumberModel(40, 30, 50, 1))
-    private var d = JSpinner(SpinnerNumberModel(60, 50, 70, 1))
-    private var e = JSpinner(SpinnerNumberModel(40, 30, 50, 1))
-    private var f = JSpinner(SpinnerNumberModel(60, 50, 70, 1))
-    private var g = JSpinner(SpinnerNumberModel(120, 110, 130, 1))
-    private var h = JSpinner(SpinnerNumberModel(40, 30, 50, 1))
-    private var i = JSpinner(SpinnerNumberModel(30, 20, 40, 1))
-    private var alpha = JSpinner(SpinnerNumberModel(71.0, 61.0, 81.0, 1.0))
+    private var k = JSpinner(SpinnerNumberModel(20, 0, 50, 1))
+    /*private var r1 = JSpinner(SpinnerNumberModel(80, 0, 200, 1))
+    private var r2 = JSpinner(SpinnerNumberModel(40, 0, 200, 1))
+    private var r3 = JSpinner(SpinnerNumberModel(40, 0, 200, 1))
+    private var a = JSpinner(SpinnerNumberModel(80, 0, 200, 1))
+    private var b = JSpinner(SpinnerNumberModel(20, 0, 200, 1))
+    private var c = JSpinner(SpinnerNumberModel(40, 0, 200, 1))
+    private var d = JSpinner(SpinnerNumberModel(60, 0, 200, 1))
+    private var e = JSpinner(SpinnerNumberModel(40, 0, 200, 1))
+    private var f = JSpinner(SpinnerNumberModel(60, 0, 200, 1))
+    private var g = JSpinner(SpinnerNumberModel(120, 0, 200, 1))
+    private var h = JSpinner(SpinnerNumberModel(40, 0, 200, 1))
+    private var i = JSpinner(SpinnerNumberModel(30, 0, 200, 1))*/
+    private var alpha = JSpinner(SpinnerNumberModel(71.0, 45.0, 90.0, 1))
 
     init {
         this.preferredSize = Dimension(width, height)
@@ -30,7 +31,7 @@ class ToolbarCanvas(width: Int, height: Int, private val mainComponent: Containe
 
     private fun initFields() {
 
-        //R1
+        /*//R1
         val l1 = JLabel("R1")
         l1.labelFor = r1
         r1.addChangeListener {
@@ -148,10 +149,20 @@ class ToolbarCanvas(width: Int, height: Int, private val mainComponent: Containe
             mainComponent.repaint()
         }
         add(l12)
-        add(i)
+        add(i)*/
+
+        //k
+        val l14 = JLabel("k")
+        k.addChangeListener {
+            figureCanvas.k = k.value as Int
+            figureCanvas.updateDimension()
+            mainComponent.repaint()
+        }
+        add(l14)
+        add(k)
 
         //
-        val l13 = JLabel("  α")
+        val l13 = JLabel("α")
         l13.labelFor = alpha
         alpha.addChangeListener {
             figureCanvas.ALPHA = (alpha.value as Double).toInt()
