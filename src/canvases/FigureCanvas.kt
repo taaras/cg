@@ -30,19 +30,19 @@ class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainCompon
     var rotateDegree = 0
     var rotatePoint: Point? = null
 
-    var k = 20
-    var R1 = k * 4
-    var R2 = k * 2
-    var R3 = k * 2
-    var A = k * 4
-    var B = k
-    var C = k * 2
-    var D = k * 3
-    var E = k * 2
-    var F = k * 3
-    var G = k * 6
-    var H = k * 2
-    var I = (k * 1.5).toInt()
+    //var k = 20
+    var R1 = 80
+    var R2 = 40
+    var R3 = 40
+    var A = 80
+    var B = 20
+    var C = 40
+    var D = 60
+    var E = 40
+    var F = 60
+    var G = 120
+    var H = 40
+    var I = 30
     var ALPHA = toDegrees(atan(3.0)).toInt()
 
     init {
@@ -74,7 +74,7 @@ class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainCompon
         })
     }
 
-    fun updateDimension(){
+    /*fun updateDimension(){
         R1 = k * 4
         R2 = k * 2
         R3 = k * 2
@@ -87,7 +87,7 @@ class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainCompon
         G = k * 6
         H = k * 2
         I = (k * 1.5).toInt()
-    }
+    }*/
 
     public override fun paintComponent(g: Graphics) {
         super.paintComponent(g)

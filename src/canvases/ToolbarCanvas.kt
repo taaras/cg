@@ -4,13 +4,15 @@ package canvases
  * Created by Тарас on 28.09.2016.
  */
 
+import utils.ImagePanel
 import javax.swing.*
 import java.awt.*
+import javax.swing.text.html.ImageView
 
 class ToolbarCanvas(width: Int, height: Int, private val mainComponent: Container, private val figureCanvas: FigureCanvas) : JPanel() {
 
-    private var k = JSpinner(SpinnerNumberModel(20, 0, 50, 1))
-    /*private var r1 = JSpinner(SpinnerNumberModel(80, 0, 200, 1))
+    //private var k = JSpinner(SpinnerNumberModel(20, 0, 50, 1))
+    private var r1 = JSpinner(SpinnerNumberModel(80, 0, 200, 1))
     private var r2 = JSpinner(SpinnerNumberModel(40, 0, 200, 1))
     private var r3 = JSpinner(SpinnerNumberModel(40, 0, 200, 1))
     private var a = JSpinner(SpinnerNumberModel(80, 0, 200, 1))
@@ -21,8 +23,9 @@ class ToolbarCanvas(width: Int, height: Int, private val mainComponent: Containe
     private var f = JSpinner(SpinnerNumberModel(60, 0, 200, 1))
     private var g = JSpinner(SpinnerNumberModel(120, 0, 200, 1))
     private var h = JSpinner(SpinnerNumberModel(40, 0, 200, 1))
-    private var i = JSpinner(SpinnerNumberModel(30, 0, 200, 1))*/
+    private var i = JSpinner(SpinnerNumberModel(30, 0, 200, 1))
     private var alpha = JSpinner(SpinnerNumberModel(71.0, 45.0, 90.0, 1))
+    private var dimButton = Button("Параметри")
 
     init {
         this.preferredSize = Dimension(width, height)
@@ -31,7 +34,18 @@ class ToolbarCanvas(width: Int, height: Int, private val mainComponent: Containe
 
     private fun initFields() {
 
-        /*//R1
+        //
+        dimButton.addActionListener {
+            var frame = JFrame("Параметри")
+            SwingUtilities.invokeLater {
+                frame.contentPane = ImagePanel()
+                frame.setBounds(0, 0, 610, 580)
+                frame.isVisible = true
+            }
+        }
+        add(dimButton)
+
+        //R1
         val l1 = JLabel("R1")
         l1.labelFor = r1
         r1.addChangeListener {
@@ -149,10 +163,10 @@ class ToolbarCanvas(width: Int, height: Int, private val mainComponent: Containe
             mainComponent.repaint()
         }
         add(l12)
-        add(i)*/
+        add(i)
 
         //k
-        val l14 = JLabel("k")
+        /*val l14 = JLabel("k")
         k.addChangeListener {
             figureCanvas.k = k.value as Int
             figureCanvas.updateDimension()
@@ -160,7 +174,7 @@ class ToolbarCanvas(width: Int, height: Int, private val mainComponent: Containe
         }
         add(l14)
         add(k)
-
+*/
         //
         val l13 = JLabel("α")
         l13.labelFor = alpha
