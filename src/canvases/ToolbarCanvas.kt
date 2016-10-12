@@ -7,7 +7,6 @@ package canvases
 import utils.ImagePanel
 import javax.swing.*
 import java.awt.*
-import javax.swing.text.html.ImageView
 
 class ToolbarCanvas(width: Int, height: Int, private val mainComponent: Container, private val figureCanvas: FigureCanvas) : JPanel() {
 
