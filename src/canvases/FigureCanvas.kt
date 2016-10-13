@@ -50,8 +50,6 @@ class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainCompon
     var M = 40
     var N = 40
     var P = 30
-    var S = 20
-    var T = 40
 
     init {
         preferredSize = Dimension(windoW_WIDTH, windoW_HEIGHT)

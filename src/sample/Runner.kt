@@ -27,9 +27,9 @@ class Runner : JFrame() {
     }
 
     companion object {
-        val CANVAS_WIDTH = 540
-        val CANVAS_HEIGHT = 500
-        val TOOLBAR_HEIGHT = 80
+        val CANVAS_WIDTH = 490
+        val CANVAS_HEIGHT = 400
+        val TOOLBAR_HEIGHT = 100
 
         @JvmStatic fun main(args: Array<String>) {
             SwingUtilities.invokeLater { Runner() }
