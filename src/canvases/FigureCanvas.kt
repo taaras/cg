@@ -30,20 +30,28 @@ class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainCompon
     var rotateDegree = 0
     var rotatePoint: Point? = null
 
-    //var k = 20
-    var R1 = 80
+    var R1 = 20
     var R2 = 40
-    var R3 = 40
-    var A = 80
-    var B = 20
-    var C = 40
-    var D = 60
-    var E = 40
-    var F = 60
-    var G = 120
-    var H = 40
-    var I = 30
-    var ALPHA = toDegrees(atan(3.0)).toInt()
+    var R3 = 70
+    var R4 = 90
+    var R5 = 80
+    var R6 = 30
+    var A = 40
+    var B = 100
+    var C = 20
+    var D = 70
+    var F = 100
+    var G = 170
+    var H = 90
+    var I = 20
+    var J = 10
+    var K = 60
+    var L = 70
+    var M = 40
+    var N = 40
+    var P = 30
+    var S = 20
+    var T = 40
 
     init {
         preferredSize = Dimension(windoW_WIDTH, windoW_HEIGHT)
@@ -76,7 +84,7 @@ class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainCompon
 
     /*fun updateDimension(){
         R1 = k * 4
-        R2 = k * 2
+        R6 = k * 2
         R3 = k * 2
         A = k * 4
         B = k
@@ -102,10 +110,10 @@ class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainCompon
         if (rotate) {
             when (rotateType) {
                 RotateType.AXIS -> {
-                    figures!!.rotateXAxis(rotateDegree)
+                    figures.rotateXAxis(rotateDegree)
                 }
                 RotateType.POINT -> {
-                    figures!!.rotatePoint(rotateDegree, rotatePoint!!)
+                    figures.rotatePoint(rotateDegree, rotatePoint!!)
                 }
             }
         }
@@ -114,13 +122,13 @@ class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainCompon
             val g2d = g as Graphics2D
             g2d.color = Color.RED
             g2d.stroke = BasicStroke(10f)
-            for (point in figures!!.points) {
+            for (point in figures.points) {
                 g2d.drawOval(point.x, point.y, 1, 1)
             }
         }
 
-        figures!!.shift(shiftX, shiftY)
-        figures!!.draw(g)
+        figures.shift(shiftX, shiftY)
+        figures.draw(g)
 
     }
 
@@ -128,81 +136,81 @@ class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainCompon
 
         figures = FigureDecorator(this)
 
-        val axis = Line(Point(mainComponent.width / 2, mainComponent.height / 2 - 300), Point(mainComponent.width / 2, mainComponent.height / 2 + 300))
-
-        val drawing = formLeftPartOfDrawing()
-        var mirror = LinkedList<Figure>()
-
-        for(figure in drawing){
-            mirror.add(figure.mirror(axis))
-        }
-
-        figures.add(drawing)
-        figures.add(mirror)
-    }
-
-    private fun formLeftPartOfDrawing(): LinkedList<Figure>{
-
-        var drawing = LinkedList<Figure>()
-
         //CENTER_POINT
         val centerPoint = Point(mainComponent.width / 2, mainComponent.height / 2)
-        drawing.add(centerPoint)
+        figures.add(centerPoint)
 
-        //CENTER_CIRCLE
-        val centerCircle = Arc(R2, centerPoint, 180, 360)
-        drawing.add(centerCircle)
+        //TRIANGLE
+        val line1 = Line(Point(centerPoint.x, centerPoint.y - C + R3), Point(centerPoint.x + B/2, centerPoint.y - C + R3 - sqrt(B * B * 0.75).toInt()))
+        val line2 = Line(line1.endPoint, Point(line1.endPoint.x - B, line1.endPoint.y))
+        val line3 = Line(line2.endPoint, line1.startPoint)
+        figures.add(line1)
+        figures.add(line2)
+        figures.add(line3)
 
-        //BOTTOM_ARC
-        val bottomArc = Arc(R1, centerPoint, -90, 0)
-        drawing.add(bottomArc)
+        //RIGHT_ARCS
+        val arc1 = Arc(R3, centerPoint, 0, 90)
+        val arc2 = Arc(R4, centerPoint, 0, 90)
+        arc1.definePoints()
+        arc2.definePoints()
+        val line4 = Line(arc1.points.first, arc2.points.first)
+        val line5 = Line(arc1.points.last, arc2.points.last)
+        figures.add(arc1)
+        figures.add(arc2)
+        figures.add(line4)
+        figures.add(line5)
 
-        //LINE_1
-        val line1 = Line(Point(centerPoint.x - R1, centerPoint.y), Point(centerPoint.x - R1 - A, centerPoint.y))
-        drawing.add(line1)
+        val line6 = Line(Point(centerPoint.x - D, centerPoint.y + R4 + P), Point(centerPoint.x - D + F, centerPoint.y + R4 + P))
+        figures.add(line6)
 
-        //LINE_2
-        val line2 = Line(line1.endPoint, Point(line1.endPoint.x, line1.endPoint.y + B - G - F - E))
-        drawing.add(line2)
+        val arc3 = Arc(R5, Point(line6.endPoint.x, line6.endPoint.y - R5), 0, 90)
+        figures.add(arc3)
 
-        //LINE_3
-        val line3 = Line(line2.endPoint, Point(line2.endPoint.x + C, line2.endPoint.y - B))
-        drawing.add(line3)
+        arc3.definePoints()
+        val line7 = Line(arc3.points.last, Point(arc3.points.last.x, arc3.points.last.y - G))
+        figures.add(line7)
 
-        //LINE_4
-        val line4 = Line(line3.endPoint, Point(line3.endPoint.x + D, line3.endPoint.y))
-        drawing.add(line4)
+        val line13 = Line(Point(line7.endPoint.x - N, (line7.endPoint.y + M - A / sqrt(2.0)).toInt()), Point((line7.endPoint.x - N + A / sqrt(2.0)).toInt(), line7.endPoint.y + M))
+        val line14 = Line(line13.endPoint, Point(line13.startPoint.x, (line13.endPoint.y + A / sqrt(2.0)).toInt()))
+        val line15 = Line(line14.endPoint, Point((line14.endPoint.x - A / sqrt(2.0)).toInt(), line13.endPoint.y))
+        val line16 = Line(line15.endPoint, line13.startPoint)
+        figures.add(line13)
+        figures.add(line14)
+        figures.add(line15)
+        figures.add(line16)
 
-        //LINE_5
-        val line5 = Line(line4.endPoint, Point(line4.endPoint.x, line4.endPoint.y + E))
-        drawing.add(line5)
+        val line8 = Line(line7.endPoint, Point(line7.endPoint.x - H, line7.endPoint.y))
+        figures.add(line8)
 
-        //LINE_6
-        val line6 = Line(line5.endPoint, Point(line5.endPoint.x - H, line5.endPoint.y))
-        drawing.add(line6)
+        val line9 = Line(line8.endPoint, Point(line8.endPoint.x - J, line8.endPoint.y + I))
+        figures.add(line9)
 
-        //LINE_7
-        val line7 = Line(line6.endPoint, Point(line6.endPoint.x, line6.endPoint.y + F))
-        drawing.add(line7)
+        val line10 = Line(line9.endPoint, Point(line9.endPoint.x - K, line9.endPoint.y))
+        figures.add(line10)
 
-        val y = R3 * cos(toRadians(ALPHA.toDouble())) + I
-        //println("R3 = $R3\ncos(ALPHA) = ${cos(ALPHA)}\nI = $I\ny = $y")
-        val x = y / tan(toRadians(ALPHA.toDouble()))
-        val z = R3 * sin(toRadians(ALPHA.toDouble()))
+        val arc4 = Arc(R6, Point(line10.endPoint.x, line10.endPoint.y + R6), 180, 270)
+        figures.add(arc4)
 
-        //LINE_8
-        val line8 = Line(line7.endPoint, Point((centerPoint.x - z - x).toInt(), line7.endPoint.y))
-        drawing.add(line8)
+        arc4.definePoints()
+        val line11 = Line(arc4.points.last, Point(arc4.points.last.x, arc4.points.last.y + L))
+        figures.add(line11)
 
-        //LINE_9
-        val line9 = Line(line8.endPoint, Point((line8.endPoint.x + x).toInt(), (line8.endPoint.y - y).toInt()))
-        drawing.add(line9)
+        val l = sqrt(((line11.endPoint.x - line6.startPoint.x)*(line11.endPoint.x - line6.startPoint.x) + (line11.endPoint.y - line6.startPoint.y + R2) * (line11.endPoint.y - line6.startPoint.y + R2)).toDouble())
+        val alpha1 = asin((R6 + K + J + H - R5 - F)/l)
+        val alpha2 = acos(R2 / l)
 
-        //TOP_ARC
-        val topArc = Arc(R3, Point(centerPoint.x, centerPoint.y - G - I), 180, 180 + ALPHA)
-        drawing.add(topArc)
+        val arc5 = Arc(R2
+                , Point(line6.startPoint.x, line6.startPoint.y - R2)
+                , (180 + toDegrees(alpha1 + alpha2)).toInt()
+                , 360)
+        figures.add(arc5)
 
-        return drawing
+        arc5.definePoints()
+        val line12 = Line(line11.endPoint, arc5.points.first)
+        figures.add(line12)
+
+        val circle = Circle(R1, Point(line6.startPoint.x, line6.startPoint.y - R2))
+        figures.add(circle)
     }
 
     private fun drawAxis(g: Graphics) {

@@ -38,7 +38,7 @@ class ToolbarCanvas(width: Int, height: Int, private val mainComponent: Containe
             var frame = JFrame("Параметри")
             SwingUtilities.invokeLater {
                 frame.contentPane = ImagePanel()
-                frame.setBounds(0, 0, 610, 580)
+                frame.setBounds(0, 0, 300, 300)
                 frame.isVisible = true
             }
         }
@@ -54,11 +54,11 @@ class ToolbarCanvas(width: Int, height: Int, private val mainComponent: Containe
         add(l1)
         add(r1)
 
-        //R2
-        val l2 = JLabel("R2")
+        //R6
+        val l2 = JLabel("R6")
         l2.labelFor = r2
         r2.addChangeListener {
-            figureCanvas.R2 = r2.value as Int
+            figureCanvas.R6 = r2.value as Int
             mainComponent.repaint()
         }
         add(l2)
@@ -118,7 +118,7 @@ class ToolbarCanvas(width: Int, height: Int, private val mainComponent: Containe
         val l8 = JLabel("E")
         l8.labelFor = e
         e.addChangeListener {
-            figureCanvas.E = e.value as Int
+            //figureCanvas.E = e.value as Int
             mainComponent.repaint()
         }
         add(l8)
@@ -178,7 +178,7 @@ class ToolbarCanvas(width: Int, height: Int, private val mainComponent: Containe
         val l13 = JLabel("α")
         l13.labelFor = alpha
         alpha.addChangeListener {
-            figureCanvas.ALPHA = (alpha.value as Double).toInt()
+            //figureCanvas.ALPHA = (alpha.value as Double).toInt()
             mainComponent.repaint()
         }
         add(l13)
@@ -202,7 +202,7 @@ class ToolbarCanvas(width: Int, height: Int, private val mainComponent: Containe
 
         //Inner radius
         innerRadius = TextField(5)
-        val innerRadiusText = Label("R2")
+        val innerRadiusText = Label("R6")
         this.add(innerRadiusText)
         this.add(innerRadius)
 
