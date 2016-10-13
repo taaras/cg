@@ -50,6 +50,8 @@ class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainCompon
     var M = 40
     var N = 40
     var P = 30
+    var centerA = Point(0,0)
+    var centerB = Point(0,0)
 
     init {
         preferredSize = Dimension(windoW_WIDTH, windoW_HEIGHT)
@@ -99,11 +101,11 @@ class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainCompon
         super.paintComponent(g)
         background = Color.WHITE
 
+
+        definePlotElements()
         drawDashedLine(g)
         //drawAxis(g)
         drawGrid(g)
-
-        definePlotElements()
 
         if (rotate) {
             when (rotateType) {
@@ -168,6 +170,8 @@ class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainCompon
         val line7 = Line(arc3.points.last, Point(arc3.points.last.x, arc3.points.last.y - G))
         figures.add(line7)
 
+        centerA = Point(line7.endPoint.x - N, line7.endPoint.y + M)
+
         val line13 = Line(Point(line7.endPoint.x - N, (line7.endPoint.y + M - A / sqrt(2.0)).toInt()), Point((line7.endPoint.x - N + A / sqrt(2.0)).toInt(), line7.endPoint.y + M))
         val line14 = Line(line13.endPoint, Point(line13.startPoint.x, (line13.endPoint.y + A / sqrt(2.0)).toInt()))
         val line15 = Line(line14.endPoint, Point((line14.endPoint.x - A / sqrt(2.0)).toInt(), line13.endPoint.y))
@@ -197,8 +201,10 @@ class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainCompon
         val alpha1 = asin((R6 + K + J + H - R5 - F)/l)
         val alpha2 = acos(R2 / l)
 
+        centerB = Point(line6.startPoint.x, line6.startPoint.y - R2)
+
         val arc5 = Arc(R2
-                , Point(line6.startPoint.x, line6.startPoint.y - R2)
+                , centerB
                 , (180 + toDegrees(alpha1 + alpha2)).toInt()
                 , 360)
         figures.add(arc5)
@@ -207,7 +213,7 @@ class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainCompon
         val line12 = Line(line11.endPoint, arc5.points.first)
         figures.add(line12)
 
-        val circle = Circle(R1, Point(line6.startPoint.x, line6.startPoint.y - R2))
+        val circle = Circle(R1, centerB)
         figures.add(circle)
     }
 
@@ -227,10 +233,16 @@ class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainCompon
         val dash = floatArrayOf(10.0f)
         g2.stroke = BasicStroke(2.5f, BasicStroke.CAP_BUTT,
                 BasicStroke.JOIN_MITER, 10.0f, dash, 0.0f)
-        g2.drawLine(mainComponent.width / 2, mainComponent.height / 2, mainComponent.width / 2, mainComponent.height / 2 - 500)
-        g2.drawLine(mainComponent.width / 2, mainComponent.height / 2, mainComponent.width / 2, mainComponent.height / 2 + 300)
-        g2.drawLine(mainComponent.width / 2, mainComponent.height / 2, mainComponent.width / 2 + 300, mainComponent.height / 2)
-        g2.drawLine(mainComponent.width / 2, mainComponent.height / 2, mainComponent.width / 2 - 300, mainComponent.height / 2)
+        g2.drawLine(mainComponent.width / 2, mainComponent.height / 2, mainComponent.width / 2, (mainComponent.height / 2 - B / 2) - 20)
+        g2.drawLine(mainComponent.width / 2, mainComponent.height / 2, mainComponent.width / 2, mainComponent.height / 2 + R4 + P + 20)
+        g2.drawLine(mainComponent.width / 2, mainComponent.height / 2, mainComponent.width / 2 - D + F + R5 + 20, mainComponent.height / 2)
+        g2.drawLine(mainComponent.width / 2, mainComponent.height / 2, mainComponent.width / 2 - B/2 - 20, mainComponent.height / 2)
+
+        g2.drawLine(centerA.x, (centerA.y - A/sqrt(2.0)).toInt()-20, centerA.x, (centerA.y + A/sqrt(2.0)).toInt()+20)
+        g2.drawLine((centerA.x - A/sqrt(2.0)).toInt()-20, centerA.y, (centerA.x + A/sqrt(2.0)).toInt()+20, centerA.y)
+
+        g2.drawLine(centerB.x, centerB.y - R1 - 20, centerB.x, centerB.y + R1 + 20)
+        g2.drawLine(centerB.x - R1 - 20, centerB.y, centerB.x + R1 + 20, centerB.y)
     }
 
     private fun drawGrid(g: Graphics) {
