@@ -110,7 +110,7 @@ class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainCompon
             }
         }
 
-        if (highlighted) {
+        if (highlighted){
             val g2d = g as Graphics2D
             g2d.color = Color.RED
             g2d.stroke = BasicStroke(10f)
