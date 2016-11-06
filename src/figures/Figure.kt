@@ -15,7 +15,7 @@ abstract class Figure {
     set (points){
         val newPoints = LinkedList<Point>()
 
-        for (point in points!!) {
+        for (point in points) {
             newPoints.add(Point(point.x, point.y))
         }
 
@@ -38,15 +38,15 @@ abstract class Figure {
         }
 
         var newPoints = LinkedList<Point>()
-        if (line.startPoint!!.x == line.endPoint!!.x){
+        if (line.startPoint.x == line.endPoint.x){
             for(p in points){
-                newPoints.add(Point(2*line.startPoint!!.x - p.x, p.y))
+                newPoints.add(Point(2*line.startPoint.x - p.x, p.y))
             }
             return Mirror(newPoints)
         }
 
-        var k = (line.startPoint!!.y - line.endPoint!!.y)/(line.startPoint!!.x - line.endPoint!!.x)
-        var b = line.endPoint!!.y - line.endPoint!!.x * k
+        var k = (line.startPoint.y - line.endPoint.y)/(line.startPoint.x - line.endPoint.x)
+        var b = line.endPoint.y - line.endPoint.x * k
 
         for(p in points){
             val cx = (-b + p.y + p.x / k)/(k + 1 / k)
@@ -59,7 +59,7 @@ abstract class Figure {
 
     fun moveDots(x: Int, y: Int) {
         if (points != null) {
-            for (point in points!!) {
+            for (point in points) {
                 //point.setBounds(point.getX() + x, point.getY() + y, 1 ,1);
                 //point.setLocation(point.getX() + x, point.getY() + y);
             }
@@ -70,7 +70,7 @@ abstract class Figure {
         if (points != null) {
             val movedDots = LinkedList<Point>()
 
-            for (point in points!!) {
+            for (point in points) {
                 movedDots.add(Point(point.x + x, point.y + y))
             }
 

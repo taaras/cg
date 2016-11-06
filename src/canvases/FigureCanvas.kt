@@ -14,23 +14,10 @@ import java.lang.Math.*
 import java.util.*
 
 class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainComponent: Container) : JPanel() {
-    var toolbaR_HEIGHT: Int = 0
-
-    var highlighted = false
-
-    var shiftX: Int = 0
-    var shiftY: Int = 0
-    var shiftDegree: Int = 0
 
     var canvasPoints: List<Point>? = null
-    var figures = FigureDecorator(this)
+    var engine = Engine(this)
 
-    var rotate = false
-    var rotateType: RotateType? = null
-    var rotateDegree = 0
-    var rotatePoint: Point? = null
-
-    //var k = 20
     var R1 = 80
     var R2 = 40
     var R3 = 40
@@ -74,60 +61,21 @@ class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainCompon
         })
     }
 
-    /*fun updateDimension(){
-        R1 = k * 4
-        R2 = k * 2
-        R3 = k * 2
-        A = k * 4
-        B = k
-        C = k * 2
-        D = k * 3
-        E = k * 2
-        F = k * 3
-        G = k * 6
-        H = k * 2
-        I = (k * 1.5).toInt()
-    }*/
-
     public override fun paintComponent(g: Graphics) {
         super.paintComponent(g)
         background = Color.WHITE
 
-        drawDashedLine(g)
+        defineCenterLines()
         //drawAxis(g)
-        drawGrid(g)
+        defineGrid()
 
         definePlotElements()
 
-        if (rotate) {
-            when (rotateType) {
-                RotateType.AXIS -> {
-                    figures!!.rotateXAxis(rotateDegree)
-                }
-                RotateType.POINT -> {
-                    figures!!.rotatePoint(rotateDegree, rotatePoint!!)
-                }
-            }
-        }
-
-        if (highlighted){
-            val g2d = g as Graphics2D
-            g2d.color = Color.RED
-            g2d.stroke = BasicStroke(10f)
-            for (point in figures!!.points) {
-                g2d.drawOval(point.x, point.y, 1, 1)
-            }
-        }
-
-        figures!!.shift(shiftX, shiftY)
-        figures!!.draw(g)
-
+        engine.draw(g)
     }
 
     private fun definePlotElements() {
-
-        figures = FigureDecorator(this)
-
+        engine.resetFigures()
         val axis = Line(Point(mainComponent.width / 2, mainComponent.height / 2 - 300), Point(mainComponent.width / 2, mainComponent.height / 2 + 300))
 
         val drawing = formLeftPartOfDrawing()
@@ -137,8 +85,8 @@ class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainCompon
             mirror.add(figure.mirror(axis))
         }
 
-        figures.add(drawing)
-        figures.add(mirror)
+        engine.add(drawing)
+        engine.add(mirror)
     }
 
     private fun formLeftPartOfDrawing(): LinkedList<Figure>{
@@ -205,7 +153,7 @@ class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainCompon
         return drawing
     }
 
-    private fun drawAxis(g: Graphics) {
+    /*private fun drawAxis(g: Graphics) {
         val g2d = g as Graphics2D
         g2d.color = Color.GREEN
         g2d.font = Font("Courier New", Font.BOLD, 16)
@@ -214,35 +162,25 @@ class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainCompon
         g2d.drawString("X", width / 2 + 5, 10)
         g2d.drawLine(3, 3, 3, height / 2)
         g2d.drawString("Y", 10, height / 2 + 5)
+    }*/
+
+    private fun defineCenterLines() {
+        engine.addCenterLine(Line(Point(mainComponent.width / 2, mainComponent.height / 2), Point(mainComponent.width / 2, mainComponent.height / 2 - 500)))
+        engine.addCenterLine(Line(Point(mainComponent.width / 2, mainComponent.height / 2), Point(mainComponent.width / 2, mainComponent.height / 2 + 300)))
+        engine.addCenterLine(Line(Point(mainComponent.width / 2, mainComponent.height / 2), Point(mainComponent.width / 2 + 300, mainComponent.height / 2)))
+        engine.addCenterLine(Line(Point(mainComponent.width / 2, mainComponent.height / 2), Point(mainComponent.width / 2 - 300, mainComponent.height / 2)))
     }
 
-    private fun drawDashedLine(g: Graphics) {
-        val g2 = g as Graphics2D
-        val dash = floatArrayOf(10.0f)
-        g2.stroke = BasicStroke(2.5f, BasicStroke.CAP_BUTT,
-                BasicStroke.JOIN_MITER, 10.0f, dash, 0.0f)
-        g2.drawLine(mainComponent.width / 2, mainComponent.height / 2, mainComponent.width / 2, mainComponent.height / 2 - 500)
-        g2.drawLine(mainComponent.width / 2, mainComponent.height / 2, mainComponent.width / 2, mainComponent.height / 2 + 300)
-        g2.drawLine(mainComponent.width / 2, mainComponent.height / 2, mainComponent.width / 2 + 300, mainComponent.height / 2)
-        g2.drawLine(mainComponent.width / 2, mainComponent.height / 2, mainComponent.width / 2 - 300, mainComponent.height / 2)
-    }
-
-    private fun drawGrid(g: Graphics) {
-        val g2d = g as Graphics2D
-        g2d.color = Color.GRAY
-        g2d.stroke = BasicStroke(0.1f)
-
-        run {
-            var i = 0
-            while (i < height + 1) {
-                g2d.drawLine(0, i, width, i)
-                i += gridStep
-            }
+    private fun defineGrid() {
+        var i = 0
+        while (i < height + 1) {
+            engine.addGridLine(Line(Point(0, i), Point(width, i)))
+            i += gridStep
         }
 
-        var i = 0
+        i = 0
         while (i < width) {
-            g2d.drawLine(i, 0, i, height)
+            engine.addGridLine(Line(Point(i, 0), Point(i, height)))
             i += gridStep
         }
     }

@@ -38,7 +38,7 @@ class ToolbarCanvas(width: Int, height: Int, private val mainComponent: Containe
         dimButton.addActionListener {
             var frame = JFrame("Параметри")
             SwingUtilities.invokeLater {
-                frame.contentPane = ImagePanel()
+                frame.contentPane = ImagePanel
                 frame.setBounds(0, 0, 610, 580)
                 frame.isVisible = true
             }

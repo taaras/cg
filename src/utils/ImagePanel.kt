@@ -9,11 +9,11 @@ import javax.swing.JPanel
 /**
  * Created by Тарас on 06.10.2016.
  */
-class ImagePanel : JPanel {
+object ImagePanel : JPanel() {
 
     private var image: Image? = null
 
-    constructor(){
+    init{
         try{
             image = Toolkit.getDefaultToolkit().getImage("src/img/dimension.png")
         }catch (ex: IOException){}

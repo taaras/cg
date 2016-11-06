@@ -13,7 +13,7 @@ open class Circle(open var radius: Int, center: Point) : Figure() {
     var center: Point
     override var points: LinkedList<Point>
         get() {
-            if (super.points == null) {
+            if (false) {
                 definePoints()
             }
             return super.points
@@ -36,10 +36,10 @@ open class Circle(open var radius: Int, center: Point) : Figure() {
             definePoints()
         }
 
-        for (i in 1..points!!.size - 1) {
+        for (i in 1..points.size - 1) {
             val g2d = createPainter(g)
-            g2d.drawLine(points!![i - 1].x, points!![i - 1].y,
-                    points!![i].x, points!![i].y)
+            g2d.drawLine(points[i - 1].x, points[i - 1].y,
+                    points[i].x, points[i].y)
         }
 
         return points
@@ -49,7 +49,7 @@ open class Circle(open var radius: Int, center: Point) : Figure() {
         center.x = center.x + x
         center.y = center.y + y
 
-        for (point in points!!) {
+        for (point in points) {
             point.x = point.x + x
             point.y = point.y + y
         }
