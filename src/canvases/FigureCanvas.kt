@@ -75,7 +75,9 @@ class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainCompon
     }
 
     private fun definePlotElements() {
-        engine.resetFigures()
+        engine.reset()
+        defineGrid()
+        defineCenterLines()
         val axis = Line(Point(mainComponent.width / 2, mainComponent.height / 2 - 300), Point(mainComponent.width / 2, mainComponent.height / 2 + 300))
 
         val drawing = formLeftPartOfDrawing()

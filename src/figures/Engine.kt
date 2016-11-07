@@ -15,6 +15,12 @@ class Engine(var canvas: FigureCanvas?) {
     private var grid = LinkedList<Line>()
     private var centerLines = LinkedList<Line>()
 
+    private var transfomationMatrix = arrayOf(
+            doubleArrayOf(0.7, 0.0, 0.0),
+            doubleArrayOf(0.0, 1.2, 0.0),
+            doubleArrayOf(0.0, 0.0, 1.0)
+    )
+
     val points: List<Point>
         get() {
             val points = ArrayList<Point>()
@@ -26,11 +32,44 @@ class Engine(var canvas: FigureCanvas?) {
             return points
         }
 
-    fun resetFigures(){
+    fun transform(){
+        for(figure in figures){
+            for(point in figure.points){
+                var coordinates = arrayOf(doubleArrayOf(point.x+0.0, point.y+0.0, 1.0))
+                var result = MatrixUtils.multiply(coordinates, transfomationMatrix)
+                point.x = result[0][0].toInt()
+                point.y = result[0][1].toInt()
+            }
+        }
+
+        for(line in centerLines){
+            for(point in line.points){
+                var coordinates = arrayOf(doubleArrayOf(point.x+0.0, point.y+0.0, 1.0))
+                var result = MatrixUtils.multiply(coordinates, transfomationMatrix)
+                point.x = result[0][0].toInt()
+                point.y = result[0][1].toInt()
+            }
+        }
+
+        for(line in grid){
+            for(point in line.points){
+                var coordinates = arrayOf(doubleArrayOf(point.x+0.0, point.y+0.0, 1.0))
+                var result = MatrixUtils.multiply(coordinates, transfomationMatrix)
+                point.x = result[0][0].toInt()
+                point.y = result[0][1].toInt()
+            }
+        }
+    }
+
+    fun reset(){
         figures = LinkedList<Figure>()
+        grid = LinkedList<Line>()
+        centerLines = LinkedList<Line>()
     }
 
     fun draw(g: Graphics) {
+        transform()
+
         drawGrid(g)
         drawCenterlines(g)
 
