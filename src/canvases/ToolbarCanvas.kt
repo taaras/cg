@@ -36,11 +36,11 @@ class ToolbarCanvas(width: Int, height: Int, private val mainComponent: Containe
 
     private var shiftX = JSpinner(SpinnerNumberModel(20, 0, 1000, 1))
     private var shiftY = JSpinner(SpinnerNumberModel(20, 0, 1000, 1))
-    private var degree = JSpinner(SpinnerNumberModel(45, 0, 90, 1))
+    private var degree = JSpinner(SpinnerNumberModel(10, 0, 90, 1))
     //private var rotateX = Button("Rotate Axis")
     //private var rotatePoint = Button("Rotate point")
-    private var pointX = JSpinner(SpinnerNumberModel(100, 0, 800, 1))
-    private var pointY = JSpinner(SpinnerNumberModel(100, 0, 800, 1))
+    private var pointX = JSpinner(SpinnerNumberModel(25, 0, 800, 1))
+    private var pointY = JSpinner(SpinnerNumberModel(25, 0, 800, 1))
 
     init {
         this.preferredSize = Dimension(width, height)
@@ -172,12 +172,12 @@ class ToolbarCanvas(width: Int, height: Int, private val mainComponent: Containe
 
         val rxx = Label("rxx :")
         proectiveComponent.add(rxx)
-        val frxx = JSpinner(SpinnerNumberModel(650.0, 0.0, 800.0, 1.0))
+        val frxx = JSpinner(SpinnerNumberModel(100.0, 0.0, 800.0, 1.0))
         proectiveComponent.add(frxx)
 
         val rxy = Label("rxy :")
         proectiveComponent.add(rxy)
-        val frxy = JSpinner(SpinnerNumberModel(200.0, 0.0, 800.0, 1.0))
+        val frxy = JSpinner(SpinnerNumberModel(100.0, 0.0, 800.0, 1.0))
         proectiveComponent.add(frxy)
 
         val ryx = Label("ryx :")
@@ -193,17 +193,17 @@ class ToolbarCanvas(width: Int, height: Int, private val mainComponent: Containe
 
         val w1 = Label("w1 :")
         proectiveComponent.add(w1)
-        val w1d = JSpinner(SpinnerNumberModel(0.0, 0.0, 3.0, 0.01))
+        val w1d = JSpinner(SpinnerNumberModel(0.11, 0.0, 800.0, 0.01))
         proectiveComponent.add(w1d)
 
         val w2 = Label("w2 :")
         proectiveComponent.add(w2)
-        val w2d = JSpinner(SpinnerNumberModel(0.0, 0.0, 3.0, 0.01))
+        val w2d = JSpinner(SpinnerNumberModel(0.44, 0.0, 800.0, 0.01))
         proectiveComponent.add(w2d)
 
         val w3 = Label("w3 :")
         proectiveComponent.add(w3)
-        val w3d = JSpinner(SpinnerNumberModel(0.3, 0.0, 3.0, 0.01))
+        val w3d = JSpinner(SpinnerNumberModel(250.0, 0.0, 500.0, 0.01))
         proectiveComponent.add(w3d)
 
         val proective = Button("proect")
