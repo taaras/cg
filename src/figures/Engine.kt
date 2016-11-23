@@ -80,7 +80,7 @@ class Engine(var canvas: FigureCanvas?) {
 
     private fun drawGrid(g: Graphics) {
         val g2d = g as Graphics2D
-        g2d.color = Color.GRAY
+        g2d.color = Color.lightGray
         g2d.stroke = BasicStroke(0.1f)
 
         for(line in grid){
@@ -92,9 +92,9 @@ class Engine(var canvas: FigureCanvas?) {
 
     private fun drawCenterlines(g: Graphics) {
         val g2d = g as Graphics2D
-        g2d.color = Color.BLACK
-        val dash = floatArrayOf(10.0f)
-        g2d.stroke = BasicStroke(2.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash, 0.0f)
+        g2d.color = Color.RED
+        val dash = floatArrayOf(35.0f, 7.0f, 3.0f, 7.0f)
+        g2d.stroke = BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL, 10.0f, dash, 0.0f)
 
         for(line in centerLines){
             val sp = line.startPoint
@@ -237,8 +237,8 @@ class Engine(var canvas: FigureCanvas?) {
         for (point in getTransformingPoints()) {
             val newX = point.x * a + point.y * b + c
             val newY = point.x * d + point.y * e + f
-            point.x = newX!!.toInt()
-            point.y = newY!!.toInt()
+            point.x = newX.toInt()
+            point.y = newY.toInt()
         }
     }
 

@@ -190,7 +190,7 @@ class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainCompon
     data class ProectiveData(val a: Double, val b: Double, val c: Double, val d: Double, val e: Double, val f: Double, val w1: Double, val w2: Double, val w3: Double)
 
     companion object {
-        val gridStep = 10
+        val gridStep = 15
     }
 }
 

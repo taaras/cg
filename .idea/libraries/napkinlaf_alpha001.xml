@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="napkinlaf-alpha001">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/napkinlaf-alpha001.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
