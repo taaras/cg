@@ -18,6 +18,10 @@ class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainCompon
     var canvasPoints: List<Point>? = null
     var engine = Engine(this)
 
+    var ed: EuclidData? = null
+    var ad: AffineData? = null
+    var pd: ProectiveData? = null
+
     var R1 = 80
     var R2 = 40
     var R3 = 40
@@ -65,19 +69,27 @@ class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainCompon
         super.paintComponent(g)
         background = Color.WHITE
 
-        defineCenterLines()
+        //defineCenterLines()
         //drawAxis(g)
-        defineGrid()
 
         definePlotElements()
+
+        when{
+            ad != null -> {engine.affineTransformByAxis(ad!!.a, ad!!.b, ad!!.c, ad!!.d, ad!!.e, ad!!.f)
+                            ad = null}
+            ed != null -> {engine.euclidianTransform(ed!!.shiftX, ed!!.shiftY, ed!!.degree, ed!!.pointX, ed!!.pointY)
+                            ed = null}
+            pd != null -> {engine.proectiveTransform(pd!!.a, pd!!.b, pd!!.c, pd!!.d, pd!!.e, pd!!.f, pd!!.w1, pd!!.w2, pd!!.w3)
+                            pd = null}
+        }
 
         engine.draw(g)
     }
 
     private fun definePlotElements() {
         engine.reset()
-        defineGrid()
         defineCenterLines()
+        engine.defineGrid()
         val axis = Line(Point(mainComponent.width / 2, mainComponent.height / 2 - 300), Point(mainComponent.width / 2, mainComponent.height / 2 + 300))
 
         val drawing = formLeftPartOfDrawing()
@@ -173,19 +185,9 @@ class FigureCanvas(var windoW_WIDTH: Int, var windoW_HEIGHT: Int, var mainCompon
         engine.addCenterLine(Line(Point(mainComponent.width / 2, mainComponent.height / 2), Point(mainComponent.width / 2 - 300, mainComponent.height / 2)))
     }
 
-    private fun defineGrid() {
-        var i = 0
-        while (i < height + 1) {
-            engine.addGridLine(Line(Point(0, i), Point(width, i)))
-            i += gridStep
-        }
-
-        i = 0
-        while (i < width) {
-            engine.addGridLine(Line(Point(i, 0), Point(i, height)))
-            i += gridStep
-        }
-    }
+    data class EuclidData(val shiftX: Int, val shiftY: Int, val degree: Int, val pointX: Int, val pointY: Int)
+    data class AffineData(val a: Int, val b: Int, val c: Int, val d: Int, val e: Int, val f: Int)
+    data class ProectiveData(val a: Double, val b: Double, val c: Double, val d: Double, val e: Double, val f: Double, val w1: Double, val w2: Double, val w3: Double)
 
     companion object {
         val gridStep = 10

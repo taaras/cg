@@ -4,4 +4,7 @@ package canvases
  * Created by Тарас on 28.09.2016.
  */
 
-class CoordinateSystem(var centerX: Int, var centerY: Int)
+class CoordinateSystem(canvas: FigureCanvas) {
+    private var centerX = canvas.width / 2
+    private var centerY = canvas.height / 2
+}

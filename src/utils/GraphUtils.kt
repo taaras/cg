@@ -36,4 +36,22 @@ object GraphUtils {
 
         return points
     }
+
+    @Throws(Exception::class)
+    fun rotateMatrixFactory(axis: String, rotateDegree: Double): Array<DoubleArray> {
+        when (axis) {
+            "X" -> {
+                return arrayOf(doubleArrayOf(1.0, 0.0, 0.0, 0.0), doubleArrayOf(0.0, Math.cos(rotateDegree), Math.sin(rotateDegree), 0.0), doubleArrayOf(0.0, -Math.sin(rotateDegree), Math.cos(rotateDegree), 0.0), doubleArrayOf(0.0, 0.0, 0.0, 1.0))
+            }
+            "Y" -> {
+                return arrayOf(doubleArrayOf(Math.cos(rotateDegree), 0.0, -Math.sin(rotateDegree), 0.0), doubleArrayOf(0.0, 1.0, 0.0, 0.0), doubleArrayOf(Math.sin(rotateDegree), 0.0, Math.cos(rotateDegree), 0.0), doubleArrayOf(0.0, 0.0, 0.0, 1.0))
+            }
+            "Z" -> {
+                return arrayOf(doubleArrayOf(Math.cos(rotateDegree), Math.sin(rotateDegree), 0.0, 0.0), doubleArrayOf(-Math.sin(rotateDegree), Math.cos(rotateDegree), 0.0, 0.0), doubleArrayOf(0.0, 0.0, 1.0, 0.0), doubleArrayOf(0.0, 0.0, 0.0, 1.0))
+            }
+            else -> {
+                throw Exception()
+            }
+        }
+    }
 }

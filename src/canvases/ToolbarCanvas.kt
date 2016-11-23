@@ -4,9 +4,16 @@ package canvases
  * Created by Тарас on 28.09.2016.
  */
 
+import figures.Point
+import figures.RotateAxis
+import figures.RotateType
+import figures.TransformType
 import utils.ImagePanel
 import javax.swing.*
 import java.awt.*
+import java.awt.event.ActionEvent
+import java.awt.event.ActionListener
+import java.awt.event.KeyListener
 import javax.swing.text.html.ImageView
 
 class ToolbarCanvas(width: Int, height: Int, private val mainComponent: Container, private val figureCanvas: FigureCanvas) : JPanel() {
@@ -27,6 +34,14 @@ class ToolbarCanvas(width: Int, height: Int, private val mainComponent: Containe
     private var alpha = JSpinner(SpinnerNumberModel(71.0, 45.0, 90.0, 1))
     private var dimButton = Button("Параметри")
 
+    private var shiftX = JSpinner(SpinnerNumberModel(20, 0, 1000, 1))
+    private var shiftY = JSpinner(SpinnerNumberModel(20, 0, 1000, 1))
+    private var degree = JSpinner(SpinnerNumberModel(45, 0, 90, 1))
+    //private var rotateX = Button("Rotate Axis")
+    //private var rotatePoint = Button("Rotate point")
+    private var pointX = JSpinner(SpinnerNumberModel(100, 0, 800, 1))
+    private var pointY = JSpinner(SpinnerNumberModel(100, 0, 800, 1))
+
     init {
         this.preferredSize = Dimension(width, height)
         initFields()
@@ -34,6 +49,180 @@ class ToolbarCanvas(width: Int, height: Int, private val mainComponent: Containe
 
     private fun initFields() {
 
+        val tabbedPane = JTabbedPane()
+        val euclidianComponent = JPanel()
+        val affineComponent = JPanel()
+        val proectiveComponent = JPanel()
+
+        tabbedPane.addTab("Euclidian", euclidianComponent)
+        tabbedPane.addTab("Affine", affineComponent)
+        tabbedPane.addTab("Proective", proectiveComponent)
+
+        add(tabbedPane)
+
+        val pshiftX = Label("shift X")
+        euclidianComponent.add(pshiftX)
+        euclidianComponent.add(shiftX)
+
+        val pshiftY = Label("shift Y")
+        euclidianComponent.add(pshiftY)
+        euclidianComponent.add(shiftY)
+
+        val ldegree = Label("Degree")
+        euclidianComponent.add(ldegree)
+        euclidianComponent.add(degree)
+
+        /*val rotateAxis = Choice()
+        rotateAxis.add("X")
+        rotateAxis.add("Y")
+        rotateAxis.add("Z")
+        rotateAxis.select(0)
+        rotateAxis.addPropertyChangeListener {
+            figureCanvas.rotateAxis = RotateAxis.valueOf(rotateAxis.selectedItem)
+        }
+        euclidianComponent.add(rotateAxis)*/
+
+        /*rotateX.addActionListener({
+            figureCanvas.rotateType = RotateType.AXIS
+            figureCanvas.rotateDegree = degree.value as Int
+            figureCanvas.rotate = true
+            mainComponent.repaint()
+        })
+        euclidianComponent.add(rotateX)
+
+        rotatePoint.addActionListener(ActionListener {
+            figureCanvas.rotateType = RotateType.POINT
+            figureCanvas.rotateDegree = degree.value as Int
+            figureCanvas.rotatePoint = Point(pointX.value as Int, pointY.value as Int)
+            figureCanvas.rotate = true
+            mainComponent.repaint()
+        })*/
+
+        //euclidianComponent.add(rotatePoint)
+        euclidianComponent.add(Label("x :"))
+        euclidianComponent.add(pointX)
+        euclidianComponent.add(Label("y :"))
+        euclidianComponent.add(pointY)
+
+        val euclidianButton = Button("Euclidian transform")
+        euclidianButton.addActionListener {
+            figureCanvas.ed = FigureCanvas.EuclidData(shiftX.value as Int,
+                    shiftY.value as Int,
+                    degree.value as Int,
+                    pointX.value as Int,
+                    pointY.value as Int)
+            mainComponent.repaint()
+        }
+        euclidianComponent.add(euclidianButton)
+////////////////////////////////////////////////affine//////////////////////////////////////////////////////////////////////////////////////////////
+        val aa = Label("x0 :")
+        affineComponent.add(aa)
+        val afield = JSpinner(SpinnerNumberModel(0, 0, 800, 1))
+        affineComponent.add(afield)
+
+        val bb = Label("y0 :")
+        affineComponent.add(bb)
+        val bfield = JSpinner(SpinnerNumberModel(0, 0, 800, 1))
+        affineComponent.add(bfield)
+
+        val cc = Label("x1 :")
+        affineComponent.add(cc)
+        val cfield = JSpinner(SpinnerNumberModel(23, 0, 800, 1))
+        affineComponent.add(cfield)
+
+        val dd = Label("y1 :")
+        affineComponent.add(dd)
+        val dfield = JSpinner(SpinnerNumberModel(5, 0, 800, 1))
+        affineComponent.add(dfield)
+
+        val ee = Label("x2 :")
+        affineComponent.add(ee)
+        val efield = JSpinner(SpinnerNumberModel(3, 0, 800, 1))
+        affineComponent.add(efield)
+
+        val ff = Label("y2 :")
+        affineComponent.add(ff)
+        val ffield = JSpinner(SpinnerNumberModel(17, 0, 800, 1))
+        affineComponent.add(ffield)
+
+        val affine = Button("affine")
+
+        affine.addActionListener {
+            figureCanvas.ad = FigureCanvas.AffineData(afield.value as Int,
+                    bfield.value as Int,
+                    cfield.value as Int,
+                    dfield.value as Int,
+                    efield.value as Int,
+                    ffield.value as Int)
+            mainComponent.repaint()
+        }
+
+        affineComponent.add(affine)
+///////////////////////////////////////////////////////////////proective///////////////////////////////////////////////////////////////////////////
+
+        val r0x = Label("r0x :")
+        proectiveComponent.add(r0x)
+        val fr0x = JSpinner(SpinnerNumberModel(300.0, 0.0, 800.0, 1.0))
+        proectiveComponent.add(fr0x)
+
+        val r0y = Label("r0y :")
+        proectiveComponent.add(r0y)
+        val fr0y = JSpinner(SpinnerNumberModel(300.0, 0.0, 800.0, 1.0))
+        proectiveComponent.add(fr0y)
+
+        val rxx = Label("rxx :")
+        proectiveComponent.add(rxx)
+        val frxx = JSpinner(SpinnerNumberModel(650.0, 0.0, 800.0, 1.0))
+        proectiveComponent.add(frxx)
+
+        val rxy = Label("rxy :")
+        proectiveComponent.add(rxy)
+        val frxy = JSpinner(SpinnerNumberModel(200.0, 0.0, 800.0, 1.0))
+        proectiveComponent.add(frxy)
+
+        val ryx = Label("ryx :")
+        proectiveComponent.add(ryx)
+        val fryx = JSpinner(SpinnerNumberModel(400.0, 0.0, 800.0, 1.0))
+        proectiveComponent.add(fryx)
+
+        val ryy = Label("ryy :")
+        proectiveComponent.add(ryy)
+        val fryy = JSpinner(SpinnerNumberModel(100.0, 0.0, 800.0, 1.0))
+        proectiveComponent.add(fryy)
+
+
+        val w1 = Label("w1 :")
+        proectiveComponent.add(w1)
+        val w1d = JSpinner(SpinnerNumberModel(0.0, 0.0, 3.0, 0.01))
+        proectiveComponent.add(w1d)
+
+        val w2 = Label("w2 :")
+        proectiveComponent.add(w2)
+        val w2d = JSpinner(SpinnerNumberModel(0.0, 0.0, 3.0, 0.01))
+        proectiveComponent.add(w2d)
+
+        val w3 = Label("w3 :")
+        proectiveComponent.add(w3)
+        val w3d = JSpinner(SpinnerNumberModel(0.3, 0.0, 3.0, 0.01))
+        proectiveComponent.add(w3d)
+
+        val proective = Button("proect")
+
+        proective.addActionListener {
+            figureCanvas.pd = FigureCanvas.ProectiveData(fr0x.value as Double,
+                    fr0y.value as Double,
+                    frxx.value as Double,
+                    frxy.value as Double,
+                    fryx.value as Double,
+                    fryy.value as Double,
+                    w1d.value as Double,
+                    w2d.value as Double,
+                    w3d.value as Double)
+            mainComponent.repaint()
+        }
+
+        proectiveComponent.add(proective)
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //
         dimButton.addActionListener {
             var frame = JFrame("Параметри")
@@ -235,12 +424,12 @@ class ToolbarCanvas(width: Int, height: Int, private val mainComponent: Containe
         val isHighlightedCheckbox = Checkbox()
         this.add(isHighlightedCheckbox)
 
-        //moveNumber
+        //shiftX
         val Move = Label("Move")
         this.add(Move)
-        moveNumber = TextField()
-        moveNumber!!.text = "1"
-        this.add(moveNumber)
+        shiftX = TextField()
+        shiftX!!.text = "1"
+        this.add(shiftX)
 
         //
         val Degree = Label("Degree")
